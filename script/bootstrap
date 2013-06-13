@@ -11,6 +11,12 @@ VENV=.venv
 # get jydoop
 git submodule update --init --recursive
 
+cd jydoop
+
+make download
+
+cd ../
+
 if [ ! -d "$VENV/bin" ]; then
   virtualenv $VENV --no-site-packages
 fi
@@ -55,7 +61,7 @@ EOT
 scp -r jydoop mango:
 ssh mango << EOT
 cd jydoop/
-time make ARGS="scripts/dashboard.py out.txt 20130429-yyyyMMdd 20130429-yyyyMMdd" hadoop
+make ARGS="scripts/dashboard.py out.txt 20130429-yyyyMMdd 20130429-yyyyMMdd" hadoop
 exit
 EOT
 scp mango:jydoop/out.txt .
